@@ -22,22 +22,6 @@
 #
 #*****************************************************************************
 
-# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
-
-APP_NAME="Gradle"
-APP_BASE_NAME=`basename "$0"`
-
-# Use the maximum available path length for the Java command
-if [ -z "$MAX_PATH" ]; then
-    MAX_PATH=4096
-fi
-
-# For Cygwin, ensure paths are in UNIX format before anything is touched
-if $cygwin; then
-    [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
-fi
-
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
@@ -54,95 +38,41 @@ done
 
 APP_HOME=`dirname "$PRG"`
 
-# Absolutize APP_HOME
-# Mac OS X readlink is not GNU readlink
-if [ `uname -s` = "Darwin" ]; then
-    eval `echo "APP_HOME=\"`cd \\\"\$APP_HOME\\\" && pwd -P\"`" 
-else 
-    APP_HOME=`readlink -f "$APP_HOME"`
+# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+
+APP_NAME="Gradle"
+APP_BASE_NAME=`basename "$0"`
+
+# Use the maximum available path length for the Java command
+if [ -z "$MAX_PATH" ]; then
+    MAX_PATH=4096
 fi
 
-# Add the gradlew properties file
-if [ -f "$APP_HOME/gradle/wrapper/gradle-wrapper.properties" ]; then
-    . "$APP_HOME/gradle/wrapper/gradle-wrapper.properties"
-fi
-
-# Make sure the distribution base is set
-if [ -z "$distributionBase" ]; then
-    distributionBase="GRADLE_USER_HOME"
-fi
-
-# Make sure the distribution path is set
-if [ -z "$distributionPath" ]; then
-    distributionPath="wrapper/dists"
-fi
-
-# Make sure the zip store base is set
-if [ -z "$zipStoreBase" ]; then
-    zipStoreBase="GRADLE_USER_HOME"
-fi
-
-# Make sure the zip store path is set
-if [ -z "$zipStorePath" ]; then
-    zipStorePath="wrapper/dists"
-fi
-
-# Make sure the distribution URL is set
-if [ -z "$distributionUrl" ]; then
-    echo "ERROR: Could not find a value for distributionUrl in \"$APP_HOME/gradle/wrapper/gradle-wrapper.properties\"" 1>&2
-    exit 1
-fi
-
-# Determine the Gradle user home directory.
-if [ "$distributionBase" = "GRADLE_USER_HOME" ]; then
-    if [ -z "$GRADLE_USER_HOME" ]; then
-        GRADLE_USER_HOME="$HOME/.gradle"
-    fi
-    GRADLE_DIST_BASE="$GRADLE_USER_HOME"
-    GRADLE_ZIP_STORE_BASE="$GRADLE_USER_HOME"
-elif [ "$distributionBase" = "PROJECT" ]; then
-    GRADLE_DIST_BASE="$APP_HOME"
-    GRADLE_ZIP_STORE_BASE="$APP_HOME"
-else
-    echo "ERROR: Unrecognized value for distributionBase in \"$APP_HOME/gradle/wrapper/gradle-wrapper.properties\": '$distributionBase'" 1>&2
-    exit 1
-fi
-
-# Determine the zip store directory.
-if [ "$zipStoreBase" = "GRADLE_USER_HOME" ]; then
-    if [ -z "$GRADLE_USER_HOME" ]; then
-        GRADLE_USER_HOME="$HOME/.gradle"
-    fi
-    GRADLE_ZIP_STORE="$GRADLE_USER_HOME/$zipStorePath"
-elif [ "$zipStoreBase" = "PROJECT" ]; then
-    GRADLE_ZIP_STORE="$APP_HOME/$zipStorePath"
-else
-    echo "ERROR: Unrecognized value for zipStoreBase in \"$APP_HOME/gradle/wrapper/gradle-wrapper.properties\": '$zipStoreBase'" 1>&2
-    exit 1
-fi
-
-# Construct the distribution and zip file names
-distributionUrlPath=`echo $distributionUrl | sed -e 's/\\:/_/' -e 's/:/_/g'`
-baseName=`basename "$distributionUrl"`
-extension="${baseName##*.}"
-baseName="${baseName%.*}"
-distDir="$GRADLE_DIST_BASE/$distributionPath/$baseName"
-distFile="$GRADLE_ZIP_STORE/$distributionUrlPath/$baseName.$extension"
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+cygwin=false
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+esac
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
-    APP_HOME=`cygpath --path --windows "$APP_HOME"`
-    JAVA_HOME=`cygpath --path --windows "$JAVA_HOME"`
-    CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+    [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
 fi
 
-# Setup the command-line arguments for gradle.
-GRADLE_CMD_LINE_ARGS=() 
-for i in "$@" ; do
-    GRADLE_CMD_LINE_ARGS=("${GRADLE_CMD_LINE_ARGS[@]}" "$i") 
-done
+#
+# Resolve APP_HOME
+#
+# Mac OS X readlink is not GNU readlink
+if [ `uname -s` = "Darwin" ]; then
+    eval `echo "APP_HOME=\\\"`cd \\\\\\\"\$APP_HOME\\\\\\\\" && pwd -P\\\""`
+else
+    APP_HOME=`readlink -f "$APP_HOME"`
+fi
 
-# Find the Java command
+# Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
         # IBM's JDK on AIX uses strange locations for the executables
@@ -160,6 +90,81 @@ fi
 
 # Don't pass the args to the wrapper if we are in execute-wrapper mode.
 if [ "$1" != "--execute-wrapper" ]; then
+    # Unset CLASSPATH - we are going to use the one defined by the wrapper
+    unset CLASSPATH
+
+    # Use the maximum available path length for the Java command
+    if [ -z "$MAX_PATH" ]; then
+        MAX_PATH=4096
+    fi
+
+    # Add the gradlew properties file
+    if [ -f "$APP_HOME/gradle/wrapper/gradle-wrapper.properties" ]; then
+        . "$APP_HOME/gradle/wrapper/gradle-wrapper.properties"
+    fi
+
+    # Make sure the distribution base is set
+    if [ -z "$distributionBase" ]; then
+        distributionBase="GRADLE_USER_HOME"
+    fi
+
+    # Make sure the distribution path is set
+    if [ -z "$distributionPath" ]; then
+        distributionPath="wrapper/dists"
+    fi
+
+    # Make sure the zip store base is set
+    if [ -z "$zipStoreBase" ]; then
+        zipStoreBase="GRADLE_USER_HOME"
+    fi
+
+    # Make sure the zip store path is set
+    if [ -z "$zipStorePath" ]; then
+        zipStorePath="wrapper/dists"
+    fi
+
+    # Make sure the distribution URL is set
+    if [ -z "$distributionUrl" ]; then
+        echo "ERROR: Could not find a value for distributionUrl in \"$APP_HOME/gradle/wrapper/gradle-wrapper.properties\"" 1>&2
+        exit 1
+    fi
+
+    # Determine the Gradle user home directory.
+    if [ "$distributionBase" = "GRADLE_USER_HOME" ]; then
+        if [ -z "$GRADLE_USER_HOME" ]; then
+            GRADLE_USER_HOME="$HOME/.gradle"
+        fi
+        GRADLE_DIST_BASE="$GRADLE_USER_HOME"
+        GRADLE_ZIP_STORE_BASE="$GRADLE_USER_HOME"
+    elif [ "$distributionBase" = "PROJECT" ]; then
+        GRADLE_DIST_BASE="$APP_HOME"
+        GRADLE_ZIP_STORE_BASE="$APP_HOME"
+    else
+        echo "ERROR: Unrecognized value for distributionBase in \"$APP_HOME/gradle/wrapper/gradle-wrapper.properties\": '$distributionBase'" 1>&2
+        exit 1
+    fi
+
+    # Determine the zip store directory.
+    if [ "$zipStoreBase" = "GRADLE_USER_HOME" ]; then
+        if [ -z "$GRADLE_USER_HOME" ]; then
+            GRADLE_USER_HOME="$HOME/.gradle"
+        fi
+        GRADLE_ZIP_STORE="$GRADLE_USER_HOME/$zipStorePath"
+    elif [ "$zipStoreBase" = "PROJECT" ]; then
+        GRADLE_ZIP_STORE="$APP_HOME/$zipStorePath"
+    else
+        echo "ERROR: Unrecognized value for zipStoreBase in \"$APP_HOME/gradle/wrapper/gradle-wrapper.properties\": '$zipStoreBase'" 1>&2
+        exit 1
+    fi
+
+    # Construct the distribution and zip file names
+    distributionUrlPath=`echo $distributionUrl | sed -e 's/\\\:/_/' -e 's/:/_/g'`
+    baseName=`basename "$distributionUrl"`
+    extension="${baseName##*.}"
+    baseName="${baseName%.*}"
+    distDir="$GRADLE_DIST_BASE/$distributionPath/$baseName"
+    distFile="$GRADLE_ZIP_STORE/$distributionUrlPath/$baseName.$extension"
+
     # Download the distribution if not already present
     if [ ! -f "$distFile" ]; then
         echo "Downloading $distributionUrl"
@@ -170,7 +175,7 @@ if [ "$1" != "--execute-wrapper" ]; then
             wget -q -O "$distFile" "$distributionUrl"
         elif [ `command -v "curl"` ]; then
             curl -# -L -f -o "$distFile" "$distributionUrl"
-        else 
+        else
             echo "ERROR: Neither wget or curl is available" 1>&2
             exit 1
         fi
@@ -193,7 +198,8 @@ if [ "$1" != "--execute-wrapper" ]; then
 fi
 
 # Split up the JVM options only if it is not protected by double quotes
-if [ -z "${GRADLE_OPTS%\"*}" ] ; then
+if [ -z "${GRADLE_OPTS%\"*
+}" ] ; then
     JVM_OPTS=($GRADLE_OPTS)
 else
     JVM_OPTS="$GRADLE_OPTS"
@@ -210,4 +216,4 @@ if [ -n "$JAVA_OPTS" ]; then
 fi
 
 # Execute Gradle
-exec "$JAVACMD" "${JVM_OPTS[@]}" -classpath "$CLASSPATH" org.gradle.launcher.GradleMain "${GRADLE_CMD_LINE_ARGS[@]}"
+exec "$JAVACMD" "${JVM_OPTS[@]}" -classpath "$CLASSPATH" org.gradle.launcher.GradleMain "$@"
