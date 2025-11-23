@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "a2z_app"
-include ':a2z_app'
+rootProject.name = "DSA"
+include ':dsa'
