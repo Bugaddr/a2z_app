@@ -3,7 +3,11 @@ package com.example.dsa
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.dsa.databinding.ActivityMainBinding
 
@@ -19,9 +23,19 @@ class MainActivity : AppCompatActivity() {
     private var activeFragment: Fragment = codeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Enable edge-to-edge display
+        enableEdgeToEdge()
+        
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Handle window insets for edge-to-edge
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(top = insets.top)
+            windowInsets
+        }
 
         // --- High Refresh Rate --- //
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

@@ -1,7 +1,6 @@
 package com.example.dsa
 
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -69,10 +68,15 @@ class WebViewFragment : Fragment() {
         webSettings.domStorageEnabled = true
         webSettings.databaseEnabled = true
 
-        // Theme settings
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-            if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+        // Dark mode settings using the newer algorithmic darkening API
+        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val isDarkMode = nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+        
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
+            WebSettingsCompat.setAlgorithmicDarkeningAllowed(webSettings, isDarkMode)
+        } else if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            @Suppress("DEPRECATION")
+            if (isDarkMode) {
                 WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_ON)
             } else {
                 WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_OFF)
