@@ -75,6 +75,8 @@ class WebViewFragment : Fragment() {
         if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
             WebSettingsCompat.setAlgorithmicDarkeningAllowed(webSettings, isDarkMode)
         } else if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            // Fallback for older devices that don't support ALGORITHMIC_DARKENING
+            // FORCE_DARK is deprecated but still needed for backward compatibility
             @Suppress("DEPRECATION")
             if (isDarkMode) {
                 WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_ON)
