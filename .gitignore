@@ -1,0 +1,30 @@
+# Built application files
+*.apk
+*.aab
+*.ap_
+*.aam
+*.apks
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated native build outputs
+.cxx/
+
+# Generated files for IntelliJ / Android Studio
+.idea/
+.gradle/
+local.properties
+*.iml
+
+# Gradle build outputs
+build/
+
+# Log Files
+*.log
+
+# Android Studio Profiling
+*.hprof
