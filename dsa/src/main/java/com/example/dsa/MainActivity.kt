@@ -18,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     // Fragments
     private lateinit var codeFragment: Fragment
     private lateinit var blogFragment: Fragment
-    private lateinit var youtubeFragment: Fragment
-    
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,23 +47,19 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             codeFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z_old_sheet")
             blogFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z_old_sheet")
-            youtubeFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z_old_sheet")
             activeFragment = codeFragment
             
             supportFragmentManager.beginTransaction().apply {
                 add(R.id.fragment_container, codeFragment, "code")
                 add(R.id.fragment_container, blogFragment, "blog").hide(blogFragment)
-                add(R.id.fragment_container, youtubeFragment, "youtube").hide(youtubeFragment)
             }.commit()
         } else {
             codeFragment = supportFragmentManager.findFragmentByTag("code")!!
             blogFragment = supportFragmentManager.findFragmentByTag("blog")!!
-            youtubeFragment = supportFragmentManager.findFragmentByTag("youtube")!!
             
             val activeTag = savedInstanceState.getString("active_fragment_tag", "code")
             activeFragment = when (activeTag) {
                 "blog" -> blogFragment
-                "youtube" -> youtubeFragment
                 else -> codeFragment
             }
         }
@@ -78,10 +72,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_blog -> {
                     switchFragment(blogFragment)
-                    true
-                }
-                R.id.nav_youtube -> {
-                    switchFragment(youtubeFragment)
                     true
                 }
                 else -> false
@@ -105,7 +95,6 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         val tag = when (activeFragment) {
             blogFragment -> "blog"
-            youtubeFragment -> "youtube"
             else -> "code"
         }
         outState.putString("active_fragment_tag", tag)

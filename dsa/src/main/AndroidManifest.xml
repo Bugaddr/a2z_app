@@ -2,6 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dsa">
 
+    <queries>
+        <package android:name="com.google.android.youtube" />
+        <package android:name="com.android.vending" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="vnd.youtube" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="market" />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
