@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         // Setup Fragments
         if (savedInstanceState == null) {
-            codeFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z/public/")
-            blogFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z/public/")
+            codeFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z/")
+            blogFragment = WebViewFragment.newInstance("https://jrchintu.github.io/a2z/")
             activeFragment = codeFragment
             
             supportFragmentManager.beginTransaction().apply {
