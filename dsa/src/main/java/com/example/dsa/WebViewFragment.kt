@@ -76,6 +76,8 @@ class WebViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         webView.onResume()
+        // Reload the page when app is opened/resumed
+        webView.reload()
     }
 
     private fun setupWebView() {
