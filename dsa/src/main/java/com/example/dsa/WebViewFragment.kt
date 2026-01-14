@@ -76,8 +76,6 @@ class WebViewFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         webView.onResume()
-        // Reload the page when app is opened/resumed
-        webView.reload()
     }
 
     private fun setupWebView() {
@@ -103,8 +101,9 @@ class WebViewFragment : Fragment() {
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
         
-        // Caching configuration
-        webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        // Caching configuration - use default to respect server cache headers
+        // and ensure fresh content is fetched when available
+        webSettings.cacheMode = WebSettings.LOAD_DEFAULT
         
         // Rendering optimizations
         webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW

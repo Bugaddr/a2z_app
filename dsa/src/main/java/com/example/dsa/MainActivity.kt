@@ -80,12 +80,13 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (activeFragment is WebViewFragment && (activeFragment as WebViewFragment).canGoBack()) {
-                    (activeFragment as WebViewFragment).goBack()
+                val currentFragment = activeFragment
+                if (currentFragment is WebViewFragment && currentFragment.canGoBack()) {
+                    currentFragment.goBack()
                 } else {
+                    // Disable this callback temporarily and let the system handle back
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
-                    isEnabled = true
                 }
             }
         })
